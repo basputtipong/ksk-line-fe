@@ -1,18 +1,29 @@
+import { useLocation } from 'react-router-dom';
 import '../App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Pin = () => {
-    const [pin, setPin] = useState<string>(''); // State to store the PIN
-
+    const [pin, setPin] = useState<string>('');
+    const [token, setToken] = useState<string>(''); 
+    const location = useLocation();
+    const {resToken} = location.state || {};
+    
     const handleButtonClick = (value: string) => {
-        if (pin.length < 6) { // Limit PIN length to 6 digits
-            setPin(prev => prev + value); // Append the clicked value to the PIN
+        if (pin.length < 6) {
+            setPin(prev => prev + value);
         }
     };
 
     const handleDelete = () => {
-        setPin(prev => prev.slice(0, -1)); // Remove the last digit
+        setPin(prev => prev.slice(0, -1));
     };
+
+    useEffect(() => {
+        if (resToken) {
+            setToken(resToken);
+            console.log("TOKEN", resToken);
+        }
+    }, [resToken]);
 
     return (
         <div className='wrap'>

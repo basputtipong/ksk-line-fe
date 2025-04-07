@@ -1,26 +1,18 @@
+import { useState } from 'react';
 import './App.css';
+import LoginModal from './components/LoginModal';
 import Splash from './components/Splash';
-import { useState, useEffect } from 'react';
-import Pin from './components/Pin';
 
 const App = () => {
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  const callPrelogin = async () => {
-    setInterval(() => {
-      setIsLoading(false);
-
-    }, 2000);
-  };
-
-  useEffect(() => {
-    callPrelogin();
-  }, []);
-
+  const [isLoading, setIsLoading] = useState(false);
+  
   return (
     <div className="wrap">
-        {isLoading ? <Splash /> : <Pin />}
+      {isLoading ? (
+        <Splash />
+        ) : (
+        <LoginModal setIsLoading={setIsLoading} />
+        )}
     </div>
   );
 };
