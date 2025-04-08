@@ -1,29 +1,89 @@
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import { useEffect, useState } from 'react';
+import { verifyPasscode } from '../api/auth';
 
 const Pin = () => {
     const [pin, setPin] = useState<string>('');
-    const [token, setToken] = useState<string>(''); 
-    const location = useLocation();
-    const {resToken} = location.state || {};
+    const [attempt, setAttempt] = useState<number>(() => {
+        const saved = localStorage.getItem('pinAttempt');
+        return saved ? parseInt(saved) : 3;
+    });
     
+    const [isPinlock, setIsPinlock] = useState<boolean>(() => {
+        const saved = localStorage.getItem('pinIsLocked');
+        return saved === 'true';
+    });
+
+    const [lockTime, setLockTime] = useState<number>(() => {
+        const saved = localStorage.getItem('pinLockTime');
+        return saved ? parseInt(saved) : 0;
+    });
+
+    const navigate = useNavigate();
+    const authToken = localStorage.getItem('authToken');
+    
+    useEffect(() => {
+        localStorage.setItem('pinAttempt', attempt.toString());
+    }, [attempt]);
+
+    useEffect(() => {
+        localStorage.setItem('pinIsLocked', isPinlock.toString());
+    }, [isPinlock]);
+
+    useEffect(() => {
+        localStorage.setItem('pinLockTime', lockTime.toString());
+    }, [lockTime]);
+
+    useEffect(() => {
+        if (pin.length === 6 && !isPinlock && authToken) {
+            verifyPasscode(pin, authToken)
+                .then(() => {
+                    localStorage.removeItem('pinAttempt');
+                    localStorage.removeItem('pinIsLocked');
+                    localStorage.removeItem('pinLockTime');
+                    navigate('/bank-main', { state: { authToken } });
+                })
+                .catch(error => {
+                    console.error('Verification failed:', error);
+                    if (attempt - 1 <= 0) {
+                        setIsPinlock(true);
+                        setAttempt(3);
+                        setLockTime(5);
+                    } else {
+                        setAttempt(prev => prev - 1);
+                    }
+                    setPin('');
+                });
+        }
+    }, [pin, isPinlock, attempt, authToken, navigate]);
+
+    useEffect(() => {
+        if (isPinlock && lockTime > 0) {
+            const timer = setInterval(() => {
+                setLockTime(prev => prev - 1);
+            }, 1000);
+
+            return () => clearInterval(timer);
+        }
+
+        if (lockTime === 0 && isPinlock) {
+            setIsPinlock(false);
+            setPin('');
+        }
+    }, [isPinlock, lockTime]);
+
     const handleButtonClick = (value: string) => {
-        if (pin.length < 6) {
+        if (!isPinlock && pin.length < 6) {
             setPin(prev => prev + value);
         }
     };
 
     const handleDelete = () => {
-        setPin(prev => prev.slice(0, -1));
-    };
-
-    useEffect(() => {
-        if (resToken) {
-            setToken(resToken);
-            console.log("TOKEN", resToken);
+        if (!isPinlock) {
+            setPin(prev => prev.slice(0, -1));
         }
-    }, [resToken]);
+    };
 
     return (
         <div className='wrap'>
@@ -41,13 +101,18 @@ const Pin = () => {
                             ))}
                         </div>
                         <div>
-                            <p className="pin__dsc" style={{ display: pin.length === 6 ? 'block' : 'none' }}>
-                                Invalid PIN Code.<br />You have 3 attempts left.
+                            <p className="pin__dsc" style={{ display: attempt < 3 ? 'block' : 'none' }}>
+                            Invalid PIN Code.<br />You have {attempt} attempts left.
                             </p>
                         </div>
+                        {isPinlock && <div>
+                            <p className="pin__dsc">
+                            You have exceed attempt limits.<br/>Please wait {lockTime}s
+                            </p>
+                        </div>}
                     </div>
                     <div className="pin__btm">
-                        <a href="#" className="pin__login">Login with ID / Password </a>
+                        <button className="pin__login">Login with ID / Password </button>
                         <span className="pin__kb">Powered by TestLab</span>
                         <div className="pin__keys">
                             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (

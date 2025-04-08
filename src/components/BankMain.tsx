@@ -1,12 +1,20 @@
 import '../App.css';
+import { useNavigate } from 'react-router-dom';
 
 const BankMain = () => {
+	const navigate = useNavigate();
+	const authToken = localStorage.getItem('authToken');
+
+	const handleClose = () => {
+		localStorage.clear()
+		navigate("/")
+	}
+
     return (
         <div className="wrap">
-
 		<header className="header ">
-			<a href="#" className="header__lft header__menu"><span className="blind">Menu</span></a>
-			<button type="button" className="header__rgt header__cxl"><span className="blind">Cancel</span></button>
+			<button className="header__lft header__menu"><span className="blind">Menu</span></button>
+			<button type="button" className="header__rgt header__cxl" onClick={handleClose}><span className="blind">Cancel</span></button>
 		</header>
 
 		<main className="container container--main">
@@ -35,9 +43,9 @@ const BankMain = () => {
 						</div>
 						<div className="main-acc__link__box">
 							<div className="main-acc__link__item">
-								<a href="#" className="main-acc__link main-acc__link--withdrawal">Withdrawal</a>
-								<a href="#" className="main-acc__link main-acc__link--qr">QR scan</a>
-								<a href="#" className="main-acc__link main-acc__link--addmoney">Add money</a>
+								<button className="main-acc__link main-acc__link--withdrawal">Withdrawal</button>
+								<button className="main-acc__link main-acc__link--qr">QR scan</button>
+								<button className="main-acc__link main-acc__link--addmoney">Add money</button>
 							</div>
 						</div>
 					</div>
@@ -61,69 +69,69 @@ const BankMain = () => {
 				<div className="rctly__wrap main-loading main-loading--order5">
 					<ul className="rctly__lst">
 						<li className="rctly__item">
-							<a href="#" className="rctly__link">
+							<button className="rctly__link">
 								<span className="rctly__thumb"><img src="https://dummyimage.com/54x54/999/fff"
 										alt=""/></span>
 								<span className="rctly__name">Emily</span>
-							</a>
+							</button>
 						</li>
 						<li className="rctly__item">
-							<a href="#" className="rctly__link">
+							<button className="rctly__link">
 								<span className="rctly__thumb is-bank"><img src="https://dummyimage.com/54x54/999/fff"
 										alt=""/></span>
 								<span className="rctly__name">AbcdEfghiJKlmN</span>
-							</a>
+							</button>
 						</li>
 						<li className="rctly__item">
-							<a href="#" className="rctly__link">
+							<button className="rctly__link">
 								<span className="rctly__thumb"><img src="https://dummyimage.com/54x54/999/fff"
 										alt=""/></span>
 								<span className="rctly__name">Jone Kiersten</span>
-							</a>
+							</button>
 						</li>
 						<li className="rctly__item">
-							<a href="#" className="rctly__link">
+							<button className="rctly__link">
 								<span className="rctly__thumb"><img src="https://dummyimage.com/54x54/999/fff"
 										alt=""/></span>
 								<span className="rctly__name">Emily</span>
-							</a>
+							</button>
 						</li>
 						<li className="rctly__item">
-							<a href="#" className="rctly__link">
+							<button className="rctly__link">
 								<span className="rctly__thumb"><img src="https://dummyimage.com/54x54/999/fff"
 										alt=""/></span>
 								<span className="rctly__name">Emily</span>
-							</a>
+							</button>
 						</li>
 						<li className="rctly__item">
-							<a href="#" className="rctly__link">
+							<button className="rctly__link">
 								<span className="rctly__thumb is-bank"><img src="https://dummyimage.com/54x54/999/fff"
 										alt=""/></span>
 								<span className="rctly__name">MarkYu Gonzales</span>
-							</a>
+							</button>
 						</li>
 						
 					</ul>
 				</div>
-				<a className="main-make main-loading main-loading--order6" style={{display: "none"}}>
+				<button className="main-make main-loading main-loading--order6" style={{display: "none"}}>
 					<span className="main-make__img"><img src="../img/main/img-debitcard-make.png" alt=""/></span>
 					<strong className="main-make__tit">Make your Debit Card</strong>
 					<p className="main-make__dsc">To enjoy 0.5% cash back from online perchase.</p>
-				</a>
+				</button>
 				<div className="debit-swipe__wrap main-loading main-loading--order6">
 					<div className="debit-swipe__inner">
 						<div className="debit-swipe__lst" style={{width: "1595px"}}>
-							<a href="#" className="debit-swipe__item" style={{ backgroundColor: "#00a1e2" }}>
+							<button className="debit-swipe__item" style={{ backgroundColor: "#00a1e2" }}>
 								<strong className="debit-swipe__name">My Salary</strong>
 								<span className="debit-swipe__etc">In progress</span>
 								<span className="debit-swipe__issue">Issued by TestLab</span>
-							</a>
-							<a href="#" className="debit-swipe__item" style= {{ backgroundColor: "#ff8300"}}>
+							</button>
+							<button className="debit-swipe__item" style= {{ backgroundColor: "#ff8300"}}>
 								<strong className="debit-swipe__name">For My Dream</strong>
 								<span className="debit-swipe__etc">In progress</span>
 								<span className="debit-swipe__issue">Issued by TestLab</span>
-							</a>
-							<a href="#" className="debit-swipe__item"
+							</button>
+							<button className="debit-swipe__item"
 								style={{ color: "#97999e", backgroundColor: "#ffffff", borderColor: "#f2f3f7"}}>
 								<strong className="debit-swipe__name">For My Dream</strong>
 								<span className="debit-swipe__etc debit-swipe__etc--active">
@@ -131,19 +139,19 @@ const BankMain = () => {
 										&#8226;&#8226;&#8226;&#8226; 3115</span>
 								</span>
 								<span className="debit-swipe__issue" style= {{ color: "#d3d3d2"}}>Issued by TestLab</span>
-							</a>
-							<a href="#" className="debit-swipe__item" style= {{ backgroundColor: "#91c9ee" }}>
+							</button>
+							<button className="debit-swipe__item" style= {{ backgroundColor: "#91c9ee" }}>
 								<strong className="debit-swipe__name">For My Dream</strong>
 								<span className="debit-swipe__etc debit-swipe__etc--active">
 									<span className="debit-swipe__etc__num">9440 78&#8226;&#8226;
 										&#8226;&#8226;&#8226;&#8226; 3115</span>
 								</span>
 								<span className="debit-swipe__issue">Issued by TestLab</span>
-							</a>
+							</button>
 
-							<a href="#" className="debit-swipe__item debit-swipe__item--all">
+							<button className="debit-swipe__item debit-swipe__item--all">
 								See all
-							</a>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -164,9 +172,9 @@ const BankMain = () => {
 						<button type="button" className="tooltip__btn-more">Copy account number</button>
 						<button type="button" className="tooltip__btn-more">Edit Name and Color</button>
 					</div>
-					<a href="#" className="main-acc__act main-acc__act--money">
+					<button className="main-acc__act main-acc__act--money">
 						<span className="blind">Add money</span>
-					</a>
+					</button>
 				</div>
 
 				<div className="main-acc is-orange is-small">
@@ -186,9 +194,9 @@ const BankMain = () => {
 
 						<button type="button" className="tooltip__btn-more">Edit Name and Color</button>
 					</div>
-					<a href="#" className="main-acc__act main-acc__act--disburse">
+					<button className="main-acc__act main-acc__act--disburse">
 						<span className="blind">Disburse</span>
-					</a>
+					</button>
 				</div>
 
 				<div className="main-acc is-purple is-small">
@@ -212,9 +220,9 @@ const BankMain = () => {
 					<div className="main-acc__circle">
 						<svg className="graph-bar" width="100%" height="100%" viewBox="0 0 42 42">
 							<circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="rgba(0,0,0,0.07)"
-								stroke-width="1.5"></circle>
+								strokeWidth="1.5"></circle>
 							<circle className="gauge" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#fff"
-								stroke-width="1.5" stroke-linecap="round" stroke-dashoffset="25"
+								strokeWidth="1.5" strokeLinecap="round" strokeDashoffset="25"
 								style= {{ strokeDasharray: "24 76"}}></circle>
 						</svg>
 						<div className="main-acc__num">
@@ -243,18 +251,18 @@ const BankMain = () => {
 
 						<button type="button" className="tooltip__btn-more">Edit Name and Color</button>
 					</div>
-					<a href="#" className="main-acc__act main-acc__act--pay">
+					<button className="main-acc__act main-acc__act--pay">
 						<span className="blind">Pay</span>
-					</a>
+					</button>
 				</div>
-				<a href="#" className="main-prod">
+				<button className="main-prod">
 					<span className="main-prod__cms-ico"><img src="https://dummyimage.com/54x54/999/fff" alt=""/></span>
 					<strong className="main-prod__tit">Want some money?</strong>
 					<p className="main-prod__dsc">You can start apply 'Clare'</p>
-				</a>
+				</button>
 
 				<div className="main-tb">
-					<a href="#" className="link-to">Total Balance</a>
+					<button className="link-to">Total Balance</button>
 				</div>
 			</div>
 		</main>
