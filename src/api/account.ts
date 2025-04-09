@@ -15,5 +15,8 @@ export const getAccount = async (token: string): Promise<AccountRes> => {
     }
 
     const data = await response.json();
-    return {accounts: data.accounts};
+    return {
+        accounts: data.accounts,
+        totalBalance: data.totalBalance,
+    };
 }

@@ -1,9 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import '../App.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getAccount } from '../api/account';
+import { getCard } from '../api/card';
+import { AccountRes, CardRes } from '../api/model';
 
 const BankMain = () => {
+	const [accountData, setAccountData] = useState<AccountRes | null>(null);
+	const [cardData, setCardData] = useState<CardRes | null>(null);
+	const [showBalance, setShowBalance] = useState(false);
 	const navigate = useNavigate();
 	const authToken = localStorage.getItem('authToken');
 	const location = useLocation();
@@ -15,16 +20,37 @@ const BankMain = () => {
 	}
 
 	useEffect(() => {
-		if (authToken){
-			getAccount(authToken)
-			.then((accounts) => {
-				console.log("ACCOUNT: ", accounts)
-			})
-			.catch(error => {
-				console.error('failed to get account', error);
-			})
+		if (authToken) {
+			const fetchData = async () => {
+				const accountRes = await getAccount(authToken)
+					.then(res => {
+						console.log("ACCOUNT:", res);
+						return res;
+					})
+					.catch(err => {
+						console.error("Failed to fetch account:", err);
+						return null;
+					});
+				setAccountData(accountRes);
+
+				const cardRes = await getCard(authToken)
+					.then(res => {
+						console.log("CARD DATA:", res);
+						return res;
+					})
+					.catch(err => {
+						console.error("Failed to fetch other data:", err);
+						return null;
+					});
+				setCardData(cardRes);
+			};
+			fetchData();
 		}
-	},[authToken])
+	}, [authToken]);
+
+	const toggleBalance = () => {
+		setShowBalance(prev => !prev);
+	}
 
     return (
         <div className="wrap">
@@ -278,7 +304,16 @@ const BankMain = () => {
 				</button>
 
 				<div className="main-tb">
-					<button className="link-to">Total Balance</button>
+					<button className="link-to" onClick={toggleBalance}>
+						{showBalance ? 'Hide Total Balance' : 'Show Total Balance'}
+					</button>
+					{showBalance && (
+						<div className="total-balance">
+							<p style={{ fontWeight: "400", fontSize: "2rem" }}>
+								{accountData?.totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} THB
+							</p>
+						</div>
+					)}
 				</div>
 			</div>
 		</main>

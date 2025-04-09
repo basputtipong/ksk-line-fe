@@ -5,6 +5,7 @@ export interface VerifyRes {
 
 export interface AccountRes {
     accounts: Account[];
+    totalBalance: number;
   }
   
 export interface Account {
@@ -24,4 +25,15 @@ export interface Flag {
     flagId: number;
     flagType: string;
     flagValue: string;
+}
+
+export interface CardRes{
+    cardId: string;
+    userId: string;
+    name: string;
+    issuer: string;
+    number: string;
+    status: string;
+    color: string;
+    borderColor: string;
 }
