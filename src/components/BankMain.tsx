@@ -1,14 +1,30 @@
+import { useEffect } from 'react';
 import '../App.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getAccount } from '../api/account';
 
 const BankMain = () => {
 	const navigate = useNavigate();
 	const authToken = localStorage.getItem('authToken');
+	const location = useLocation();
+	const { verifyRes } = location.state || {};
 
 	const handleClose = () => {
 		localStorage.clear()
 		navigate("/")
 	}
+
+	useEffect(() => {
+		if (authToken){
+			getAccount(authToken)
+			.then((accounts) => {
+				console.log("ACCOUNT: ", accounts)
+			})
+			.catch(error => {
+				console.error('failed to get account', error);
+			})
+		}
+	},[authToken])
 
     return (
         <div className="wrap">
@@ -20,7 +36,7 @@ const BankMain = () => {
 		<main className="container container--main">
 			<div className="content_wrap">
 				<div className="main-top">
-					<h1 className="main-top__tit main-loading main-loading--order1">Have a nice day Clare</h1>
+					<h1 className="main-top__tit main-loading main-loading--order1">{verifyRes.greetingMsg}</h1>
 				</div>
 
 				<div className="main-acc main-acc--large main-loading main-loading--order3">

@@ -38,11 +38,11 @@ const Pin = () => {
     useEffect(() => {
         if (pin.length === 6 && !isPinlock && authToken) {
             verifyPasscode(pin, authToken)
-                .then(() => {
+                .then((verifyRes) => {
                     localStorage.removeItem('pinAttempt');
                     localStorage.removeItem('pinIsLocked');
                     localStorage.removeItem('pinLockTime');
-                    navigate('/bank-main', { state: { authToken } });
+                    navigate('/bank-main', { state: { verifyRes } });
                 })
                 .catch(error => {
                     console.error('Verification failed:', error);

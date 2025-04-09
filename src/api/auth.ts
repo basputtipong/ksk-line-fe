@@ -1,7 +1,8 @@
 import { config } from "../config/config";
+import { VerifyRes } from "./model";
 
 export const login = async (userId: string, passcode: string): Promise<string> => {
-    const response = await fetch(`${config.authServieURL}:${config.authServiePort}/login`, {
+    const response = await fetch(`${config.authServiceURL}:${config.authServicePort}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,8 +18,8 @@ export const login = async (userId: string, passcode: string): Promise<string> =
     return data.authToken;
 };
 
-export const verifyPasscode = async (passcode: string, token: string): Promise<void> => {
-    const response = await fetch(`${config.authServieURL}:${config.authServiePort}/verify`, {
+export const verifyPasscode = async (passcode: string, token: string): Promise<VerifyRes> => {
+    const response = await fetch(`${config.authServiceURL}:${config.authServicePort}/verify`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -30,4 +31,11 @@ export const verifyPasscode = async (passcode: string, token: string): Promise<v
     if (!response.ok) {
         throw new Error('Login failed');
     }
+
+    const data = await response.json();
+    const res: VerifyRes = {
+        name: data.name,
+        greetingMsg: data.greetingMsg,
+    }
+    return res
 }

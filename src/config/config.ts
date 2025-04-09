@@ -1,4 +1,6 @@
 export const config = {
-    authServieURL: process.env.REACT_APP_AUTH_SERVICE_URL || '',
-    authServiePort: process.env.REACT_APP_AUTH_SERVICE_PORT || 1300,
+    authServiceURL: process.env.REACT_APP_AUTH_SERVICE_URL || '',
+    authServicePort: process.env.REACT_APP_AUTH_SERVICE_PORT || 1300,
+    accountServiceURL: process.env.REACT_APP_ACCOUNT_SERVICE_URL || '',
+    accountServicePort: process.env.REACT_APP_ACCOUNT_SERVICE_PORT || 1400,
 };
