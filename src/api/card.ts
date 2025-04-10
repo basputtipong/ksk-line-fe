@@ -16,14 +16,7 @@ export const getCard = async (token: string): Promise<CardRes> => {
 
     const data = await response.json();
     const cardRes: CardRes ={
-        cardId: data.cardId,
-        userId: data.userId,
-        name: data.name,
-        issuer: data.issuer,
-        number: data.number,
-        status: data.status,
-        color: data.color,
-        borderColor: data.borderColor,
+       cards: data.cards
     }
     return cardRes;
 }

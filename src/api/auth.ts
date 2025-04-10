@@ -1,5 +1,5 @@
 import { config } from "../config/config";
-import { VerifyRes } from "./model";
+import { BannerRes, VerifyRes } from "./model";
 
 export const login = async (userId: string, passcode: string): Promise<string> => {
     const response = await fetch(`${config.authServiceURL}:${config.authServicePort}/login`, {
@@ -36,6 +36,29 @@ export const verifyPasscode = async (passcode: string, token: string): Promise<V
     const res: VerifyRes = {
         name: data.name,
         greetingMsg: data.greetingMsg,
+    }
+    return res
+}
+
+export const getBanner = async (token: string): Promise<BannerRes> => {
+    const response = await fetch(`${config.authServiceURL}:${config.authServicePort}/banner`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Login failed');
+    }
+
+    const data = await response.json();
+    const res: BannerRes = {
+        bannerId: data.bannerId,
+        title: data.title,
+        description: data.description,
+        image: data.image,
     }
     return res
 }

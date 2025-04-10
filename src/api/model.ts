@@ -27,7 +27,10 @@ export interface Flag {
     flagValue: string;
 }
 
-export interface CardRes{
+export interface CardRes {
+    cards: Card[]
+}
+export interface Card{
     cardId: string;
     userId: string;
     name: string;
@@ -36,4 +39,22 @@ export interface CardRes{
     status: string;
     color: string;
     borderColor: string;
+}
+
+export interface BannerRes {
+    bannerId: string;
+    title: string;
+    description: string;
+    image: string;
+}
+
+export interface TransactionRes {
+    transactions: Transaction[];
+}
+
+export interface Transaction {
+    transactionId: string;
+    name: string;
+    image: string;
+    isBank: boolean;
 }
