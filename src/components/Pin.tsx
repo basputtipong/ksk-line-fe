@@ -49,7 +49,7 @@ const Pin = () => {
                     if (attempt - 1 <= 0) {
                         setIsPinlock(true);
                         setAttempt(3);
-                        setLockTime(5);
+                        setLockTime(30);
                     } else {
                         setAttempt(prev => prev - 1);
                     }
