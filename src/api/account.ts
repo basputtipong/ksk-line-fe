@@ -1,5 +1,5 @@
 import { config } from "../config/config";
-import { AccountRes, TransactionRes } from "./model";
+import { AccountRes, TransactionRes } from "./account.model";
 
 export const getAccount = async (token: string): Promise<AccountRes> => {
     const response = await fetch(`${config.accountServiceURL}:${config.accountServicePort}/account`, {

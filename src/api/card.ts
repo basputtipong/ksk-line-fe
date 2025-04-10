@@ -1,5 +1,5 @@
 import { config } from "../config/config";
-import { CardRes } from "./model";
+import { CardRes } from "./card.model";
 
 export const getCard = async (token: string): Promise<CardRes> => {
     const response = await fetch(`${config.cardServiceURL}:${config.cardServicePort}/card`, {

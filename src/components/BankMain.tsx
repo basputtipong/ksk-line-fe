@@ -3,7 +3,9 @@ import "../App.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAccount, updateAccount } from "../api/account";
 import { getCard } from "../api/card";
-import { AccountRes, BannerRes, CardRes } from "../api/model";
+import { BannerRes } from "../api/auth.model";
+import { CardRes } from "../api/card.model";
+import { AccountRes } from '../api/account.model'
 import { getBanner } from "../api/auth";
 
 const BankMain = () => {

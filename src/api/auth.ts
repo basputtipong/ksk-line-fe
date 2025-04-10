@@ -1,5 +1,5 @@
 import { config } from "../config/config";
-import { BannerRes, VerifyRes } from "./model";
+import { BannerRes, VerifyRes } from "./auth.model";
 
 export const login = async (userId: string, passcode: string): Promise<string> => {
     const response = await fetch(`${config.authServiceURL}:${config.authServicePort}/login`, {
