@@ -49,6 +49,8 @@ const Pin = () => {
                     if (attempt - 1 <= 0) {
                         setIsPinlock(true);
                         setAttempt(3);
+                        const now = Date.now();
+                        localStorage.setItem('pinLockedAt', now.toString());
                         setLockTime(30);
                     } else {
                         setAttempt(prev => prev - 1);
@@ -72,6 +74,25 @@ const Pin = () => {
             setPin('');
         }
     }, [isPinlock, lockTime]);
+
+    useEffect(() => {
+        const lockedAt = localStorage.getItem('pinLockedAt');
+        if (isPinlock && lockedAt) {
+            const elapsed = Math.floor((Date.now() - parseInt(lockedAt)) / 1000);
+            const remaining = 30 - elapsed;
+            if (remaining > 0) {
+                setLockTime(remaining);
+            } else {
+                setIsPinlock(false);
+                setPin('');
+                setAttempt(3);
+                localStorage.removeItem('pinLockedAt');
+                localStorage.removeItem('pinIsLocked');
+                localStorage.removeItem('pinAttempt');
+                localStorage.removeItem('pinLockTime');
+            }
+        }
+    },[isPinlock]);
 
     const handleButtonClick = (value: string) => {
         if (!isPinlock && pin.length < 6) {
