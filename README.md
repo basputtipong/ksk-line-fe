@@ -2,6 +2,11 @@
 
 ## Run Application
 
+Install dependencies
+```bash
+npm install
+```
+
 Start the application:
 ```bash
 npm start
